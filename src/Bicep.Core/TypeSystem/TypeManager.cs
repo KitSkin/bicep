@@ -5,17 +5,26 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
 using Bicep.Core.Diagnostics;
 using Bicep.Core.Extensions;
 using Bicep.Core.Parser;
 using Bicep.Core.Resources;
 using Bicep.Core.SemanticModel;
 using Bicep.Core.Syntax;
+using Bicep.Resources.Types;
 
 namespace Bicep.Core.TypeSystem
 {
     public class TypeManager : ITypeManager
     {
+        static TypeManager()
+        {
+            ResourceTypeRegisterableAttribute.RegisterAllTypesInAssembly(
+                ResourceTypeRegistrar.Instance,
+                typeof(TypeManager).Assembly);
+        }
+
         private readonly IReadOnlyDictionary<SyntaxBase,Symbol> bindings;
 
         // stores results of type checks
@@ -56,9 +65,7 @@ namespace Bicep.Core.TypeSystem
                 return null;
             }
 
-            // TODO: Construct/lookup type information based on JSON schema or swagger
-            // for now assuming very basic resource schema
-            return new ResourceType(typeName, LanguageConstants.TopLevelResourceProperties, additionalPropertiesType: null, typeReference);
+            return ResourceTypeRegistrar.Instance.LookupType(typeReference);
         }
 
         private TypeSymbol GetTypeInfoInternal(TypeManagerContext context, SyntaxBase syntax)

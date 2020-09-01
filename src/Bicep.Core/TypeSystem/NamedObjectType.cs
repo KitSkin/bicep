@@ -8,7 +8,7 @@ namespace Bicep.Core.TypeSystem
 {
     public class NamedObjectType : ObjectType
     {
-        public NamedObjectType(string name, IEnumerable<TypeProperty> properties, TypeSymbol? additionalPropertiesType, TypePropertyFlags additionalPropertiesFlags = TypePropertyFlags.None)
+        public NamedObjectType(string name, IEnumerable<ITypeProperty> properties, TypeSymbol? additionalPropertiesType, TypePropertyFlags additionalPropertiesFlags = TypePropertyFlags.None)
             : base(name)
         {
             this.Properties = properties.ToImmutableDictionary(property => property.Name, property => property, LanguageConstants.IdentifierComparer);
@@ -18,7 +18,7 @@ namespace Bicep.Core.TypeSystem
 
         public override TypeKind TypeKind => TypeKind.NamedObject;
 
-        public override ImmutableDictionary<string, TypeProperty> Properties { get; }
+        public override ImmutableDictionary<string, ITypeProperty> Properties { get; }
 
         public override TypeSymbol? AdditionalPropertiesType { get; }
 

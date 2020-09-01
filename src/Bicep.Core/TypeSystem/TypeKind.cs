@@ -37,6 +37,6 @@ namespace Bicep.Core.TypeSystem
         /// <summary>
         /// Union of multiple types.
         /// </summary>
-        Union
+        Union,
     }
 }

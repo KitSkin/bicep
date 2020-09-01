@@ -15,7 +15,7 @@ namespace Bicep.Core.TypeSystem
 
         public override TypeKind TypeKind => TypeKind.Primitive;
 
-        public virtual ImmutableDictionary<string, TypeProperty> Properties => ImmutableDictionary<string, TypeProperty>.Empty;
+        public virtual ImmutableDictionary<string, ITypeProperty> Properties => ImmutableDictionary<string, ITypeProperty>.Empty;
 
         public virtual TypeSymbol? AdditionalPropertiesType => LanguageConstants.Any;
 

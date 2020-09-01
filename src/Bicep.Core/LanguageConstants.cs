@@ -40,9 +40,9 @@ namespace Bicep.Core
         // declares the description property but also allows any other property of any type
         public static readonly TypeSymbol ParameterModifierMetadata = new NamedObjectType(nameof(ParameterModifierMetadata), CreateParameterModifierMetadataProperties(), Any, TypePropertyFlags.Constant);
 
-        public static readonly TypeSymbol Tags = new NamedObjectType(nameof(Tags), Enumerable.Empty<TypeProperty>(), String);
+        public static readonly TypeSymbol Tags = new NamedObjectType(nameof(Tags), Enumerable.Empty<ITypeProperty>(), String);
 
-        public static readonly ImmutableArray<TypeProperty> TopLevelResourceProperties = CreateResourceProperties().ToImmutableArray();
+        public static readonly ImmutableArray<ITypeProperty> TopLevelResourceProperties = CreateResourceProperties().ToImmutableArray();
 
         // types allowed to use in output and parameter declarations
         public static readonly ImmutableSortedDictionary<string, TypeSymbol> DeclarationTypes = new[] {String, Object, Int, Bool, Array}.ToImmutableSortedDictionary(type => type.Name, type => type, StringComparer.Ordinal);
@@ -59,7 +59,7 @@ namespace Bicep.Core
             return new NamedObjectType($"ParameterModifier_{parameterType.Name}", CreateParameterModifierProperties(parameterType), additionalPropertiesType: null);
         }
 
-        private static IEnumerable<TypeProperty> CreateParameterModifierProperties(TypeSymbol parameterType)
+        private static IEnumerable<ITypeProperty> CreateParameterModifierProperties(TypeSymbol parameterType)
         {
             if (ReferenceEquals(parameterType, String) || ReferenceEquals(parameterType, Object))
             {
@@ -89,12 +89,12 @@ namespace Bicep.Core
             yield return new TypeProperty("metadata", ParameterModifierMetadata, TypePropertyFlags.Constant);
         }
 
-        private static IEnumerable<TypeProperty> CreateParameterModifierMetadataProperties()
+        private static IEnumerable<ITypeProperty> CreateParameterModifierMetadataProperties()
         {
             yield return new TypeProperty("description", String, TypePropertyFlags.Constant);
         }
 
-        private static IEnumerable<TypeProperty> CreateResourceProperties()
+        private static IEnumerable<ITypeProperty> CreateResourceProperties()
         {
             /*
              * The following properties are intentionally excluded from this model:
